@@ -11,7 +11,7 @@ from random_geometry_points.circle2d import Circle2D
 def test_create_random_points():
     """Test the create_random_points method of Circle2D.
 
-    Create a set of different circles definitions along with the desired point count.
+    Create a set of different circle definitions along with the desired point count.
     For each circle it is checked wether the number of created points matches
     the expected number of points.
     Furthermore it is checked if the created points lie on the 2D circle, respectively.

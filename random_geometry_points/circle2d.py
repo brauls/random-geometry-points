@@ -1,6 +1,10 @@
 """Random points on a 2D circle.
 
 This module provides methods to generate an arbitrary number of points lying on a 2D circle.
+
+Examples:
+    For examples of the usage of this class see:
+    https://github.com/brauls/random-geometry-points/blob/master/test/circle2d_test.py
 """
 
 import math
