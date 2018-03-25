@@ -1,0 +1,73 @@
+"""Random points on a 2D circle.
+
+This module provides methods to generate an arbitrary number of points lying on a 2D circle.
+"""
+
+import math
+import random
+from random_geometry_points.geometry import Geometry
+
+class Circle2D(Geometry):
+    """Class to generate random points lying on a 2D circle.
+
+    The 2D circle is represented by the following equation:
+
+        radius = sqrt( (center_x - x)**2 + (center_y - y)**2 )
+
+    In the above equation "radius", "center_x" and "center_y" are the parameters of the 2D circle.
+
+    In the above equation "x" and "y" represents the coordinates
+    of an arbitrary point on the 2D circle.
+    """
+
+    def __init__(self, center_x, center_y, radius):
+        self.center_x = Geometry._check_geometry_parameter(center_x)
+        self.center_y = Geometry._check_geometry_parameter(center_y)
+        self.radius = Circle2D._check_radius(radius)
+
+    def create_random_points(self, num_points):
+        """Creates a list of num_points random points that lie on the 2D circle.
+
+        Args:
+            num_points (int): The number of random points to be created.
+
+        Returns:
+            list (tuple (float, float)): A list of randomly generated points.
+
+            The returned list contains num_points tuples.
+
+            Each tuple represents a point lying on the 2D circle.
+            The first tuple-value is the x coordinate.
+            The second tuple-value is the y coordinate.
+        """
+        Geometry._check_number_of_points_to_create(num_points)
+        x_from_angle = lambda angle: self.radius * math.cos(angle) + self.center_x
+        y_from_angle = lambda angle: self.radius * math.sin(angle) + self.center_y
+        circle_point = lambda angle: (x_from_angle(angle), y_from_angle(angle))
+        angles = [random.uniform(0.0, 2.0 * math.pi) for n in range(0, num_points)]
+        return [circle_point(angle) for angle in angles]
+
+    def create_random_point_generator(self, num_points):
+        """Creates a generator to generate num_points random points that lie on the 2D circle.
+
+        Args:
+            num_points (int): The number of random points to be created.
+
+        Yields:
+            tuple (float, float): The next random point.
+
+            Each tuple represents a point lying on the 2D circle.
+            The first tuple-value is the x coordinate.
+            The second tuple-value is the y coordinate.
+        """
+        pass
+
+    @staticmethod
+    def _check_radius(radius):
+        """Check the type of the radius parameter to be float or int.
+        Furthermore check that the radius value is greater than zero.
+        """
+        param = Geometry._check_geometry_parameter(radius)
+        if param <= 0.0:
+            raise ValueError("Inproper radius value. Expected a value greater than zero.")
+        return param
