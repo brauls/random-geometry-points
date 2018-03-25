@@ -4,7 +4,7 @@ import math
 import pytest
 
 PROJ_PATH = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(0, PROJ_PATH + '/../src/')
+sys.path.insert(0, PROJ_PATH + '/../')
 
 from random_geometry_points.circle2d import Circle2D
 
