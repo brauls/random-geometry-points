@@ -8,4 +8,11 @@ install:
 
 script:
   - "pipenv run pytest"
+  - "pipenv run pytest --cov=random_geometry_points test/"
+
+after_success:
   - "pipenv run coveralls"
+
+branches:
+  only:
+   - master
