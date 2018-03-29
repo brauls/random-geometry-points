@@ -44,7 +44,7 @@ class Circle2D(Geometry):
             The first tuple-value is the x coordinate.
             The second tuple-value is the y coordinate.
         """
-        Geometry._check_number_of_points_to_create(num_points)
+        super().create_random_points(num_points)
         angles = [random.uniform(0.0, 2.0 * math.pi) for n in range(0, num_points)]
         return [self._create_circle_point(angle) for angle in angles]
 
@@ -61,7 +61,7 @@ class Circle2D(Geometry):
             The first tuple-value is the x coordinate.
             The second tuple-value is the y coordinate.
         """
-        Geometry._check_number_of_points_to_create(num_points)
+        super().create_random_point_generator(num_points)
         angles = [random.uniform(0.0, 2.0 * math.pi) for n in range(0, num_points)]
         return [self._create_circle_point(angle) for angle in angles]
 

@@ -12,13 +12,15 @@ class Geometry(metaclass=ABCMeta):
     def create_random_points(self, num_points):
         """Create a list of num_points random points that lie on the geometry surface.
         """
-        pass
+        Geometry._check_number_of_points_to_create(num_points)
+        return
 
     @abstractmethod
     def create_random_point_generator(self, num_points):
         """Create a generator to generate num_points random points that lie on the geometry surface
         """
-        pass
+        Geometry._check_number_of_points_to_create(num_points)
+        return
 
     @staticmethod
     def _check_number_of_points_to_create(num_points):
