@@ -5,18 +5,18 @@ import math
 from abc import ABCMeta, abstractmethod
 
 class Geometry(metaclass=ABCMeta):
-    """Serves as a base class for all geometry types.
+    """Base class for all geometry types.
     """
 
     @abstractmethod
     def create_random_points(self, num_points):
-        """Creates a list of num_points random points that lie on the geometry surface.
+        """Create a list of num_points random points that lie on the geometry surface.
         """
         pass
 
     @abstractmethod
     def create_random_point_generator(self, num_points):
-        """Creates a generator to generate num_points random points that lie on the geometry surface
+        """Create a generator to generate num_points random points that lie on the geometry surface
         """
         pass
 
