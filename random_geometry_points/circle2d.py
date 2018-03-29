@@ -67,10 +67,10 @@ class Circle2D(Geometry):
 
     def _create_circle_point(self, angle):
         """Create a 2D cartesian point using the circle parameters and the given angle.
-        
+
         Args:
           angle (float): The angle (radiant) for which the cartesian coordinates shall be calculated
-        
+
         Returns:
           tuple (float, float): The cartesian coordinates corresponding to the input angle
         """

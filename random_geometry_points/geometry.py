@@ -50,3 +50,13 @@ class Geometry(metaclass=ABCMeta):
         if math.isinf(checked_param) or math.isnan(checked_param):
             raise ValueError("Inproper parameter value. No inf or nan.")
         return checked_param
+
+    @staticmethod
+    def _check_radius(radius):
+        """Check the type of the radius parameter to be float or int.
+        Furthermore check that the radius value is greater than zero.
+        """
+        param = Geometry._check_geometry_parameter(radius)
+        if param <= 0.0:
+            raise ValueError("Inproper radius value. Expected a value greater than zero.")
+        return param
