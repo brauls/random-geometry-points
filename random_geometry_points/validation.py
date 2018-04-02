@@ -107,13 +107,9 @@ def check_direction_vector(vec):
     check_vector(vec)
     update_magnitude = lambda acc, vec_elem: acc + vec_elem**2
     magnitude = math.sqrt(reduce(update_magnitude, vec, 0.0))
-    print("magnitude")
-    print(magnitude)
     if magnitude < 0.9:
-        print("raise value error")
         raise ValueError("""Inproper vector parameter.
           Expected the vector's magnitude to be at least 0.9.""")
-    print("do not raise")
     return vec
 
 def check_quaternion(quat):
