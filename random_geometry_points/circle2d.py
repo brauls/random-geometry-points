@@ -10,6 +10,7 @@ Examples:
 import math
 import random
 from random_geometry_points.geometry import Geometry
+from random_geometry_points.validation import check_geometry_parameter, check_radius
 
 class Circle2D(Geometry):
     """Class to generate random points lying on a 2D circle.
@@ -25,9 +26,16 @@ class Circle2D(Geometry):
     """
 
     def __init__(self, center_x, center_y, radius):
-        self.center_x = Geometry._check_geometry_parameter(center_x)
-        self.center_y = Geometry._check_geometry_parameter(center_y)
-        self.radius = Circle2D._check_radius(radius)
+        """Circle2D constructor
+
+        Args:
+            center_x (float): The x coordinate of the circle center point
+            center_y (float): The y coordinate of the circle center point
+            radius (float): The radius of the circle
+        """
+        self.center_x = check_geometry_parameter(center_x)
+        self.center_y = check_geometry_parameter(center_y)
+        self.radius = check_radius(radius)
 
     def create_random_points(self, num_points):
         """Create a list of num_points random points that lie on the 2D circle.
@@ -52,7 +60,7 @@ class Circle2D(Geometry):
         """Create a generator to generate num_points random points that lie on the 2D circle.
 
         Args:
-            num_points (int): The number of random points to be created.
+            num_points (int): The number of random points to be created. Maximum value is 99999.
 
         Yields:
             tuple (float, float): The next random point.
@@ -61,29 +69,20 @@ class Circle2D(Geometry):
             The first tuple-value is the x coordinate.
             The second tuple-value is the y coordinate.
         """
-        super().create_random_point_generator(num_points)
+        for _ in super().create_random_point_generator(num_points):
+            pass
         angles = [random.uniform(0.0, 2.0 * math.pi) for n in range(0, num_points)]
-        return [self._create_circle_point(angle) for angle in angles]
+        return (self._create_circle_point(angle) for angle in angles)
 
     def _create_circle_point(self, angle):
         """Create a 2D cartesian point using the circle parameters and the given angle.
 
         Args:
-          angle (float): The angle (radiant) for which the cartesian coordinates shall be calculated
+            angle (float): The angle (radiant) for which the cartesian coordinates shall be calculated
 
         Returns:
-          tuple (float, float): The cartesian coordinates corresponding to the input angle
+            tuple (float, float): The cartesian coordinates corresponding to the input angle
         """
         x_from_angle = lambda angle: self.radius * math.cos(angle) + self.center_x
         y_from_angle = lambda angle: self.radius * math.sin(angle) + self.center_y
         return (x_from_angle(angle), y_from_angle(angle))
-
-    @staticmethod
-    def _check_radius(radius):
-        """Check the type of the radius parameter to be float or int.
-        Furthermore check that the radius value is greater than zero.
-        """
-        param = Geometry._check_geometry_parameter(radius)
-        if param <= 0.0:
-            raise ValueError("Inproper radius value. Expected a value greater than zero.")
-        return param

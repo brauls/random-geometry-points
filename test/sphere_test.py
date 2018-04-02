@@ -75,7 +75,7 @@ def _get_valid_sphere_definitions():
     a sphere along with the desired number of random points to be created.
 
     Returns:
-      list (tuple (Sphere, int) ): List with sphere parameters and desired point count
+        list (tuple (Sphere, int) ): List with sphere parameters and desired point count
     """
     return [
         (Sphere(3.0, 5.0, 7.0, 10.0), 5),
@@ -99,7 +99,8 @@ def _get_invalid_sphere_definitions():
     An invalid parameter is a parameter with either an unexpected data type or value.
 
     Returns:
-      list (tuple (Sphere, Exception)): List with sphere parameters and the expected exception
+        list (tuple (any, any, any, any, Exception)): List with sphere parameters
+          and the expected exception
     """
     return [
         ("4.5", 5.0, 7.0, 10.0, TypeError),
@@ -132,8 +133,8 @@ def _get_spheres_with_invalid_point_count():
     An invalid number is either a value of wrong type or with an invalid value.
 
     Returns:
-      list (tuple (Sphere, (int | string))): List with sphere parameters
-        and an invalid number of random points
+        list (tuple (Sphere, any): List with sphere parameters
+          and an invalid number of random points
     """
     return [
         (Sphere(2.0, 5.0, 7.0, 5), "3", TypeError),
@@ -141,7 +142,10 @@ def _get_spheres_with_invalid_point_count():
         (Sphere(2.0, 5.0, 7.0, 5), 4.5, TypeError),
         (Sphere(2.0, 5.0, 7.0, 5), -5, ValueError),
         (Sphere(2.0, 5.0, 7.0, 5), 0, ValueError),
-        (Sphere(2.0, 5.0, 7.0, 5), 100000, ValueError)
+        (Sphere(2.0, 5.0, 7.0, 5), 100000, ValueError),
+        (Sphere(2.0, 5.0, 7.0, 5), float("nan"), TypeError),
+        (Sphere(2.0, 5.0, 7.0, 5), float("inf"), TypeError),
+        (Sphere(2.0, 5.0, 7.0, 5), float("-inf"), TypeError)
     ]
 
 def _check_valid_sphere_results(sphere, num_points, sphere_points):
@@ -151,10 +155,10 @@ def _check_valid_sphere_results(sphere, num_points, sphere_points):
     lies on the defined sphere.
 
     Args:
-      sphere (Sphere): A valid sphere definition
-      num_points (int): A valid number of random points to be created
-      sphere_points (list (tuple(float, float, float))): The randomly created points
-        for the given sphere and num_points
+        sphere (Sphere): A valid sphere definition
+        num_points (int): A valid number of random points to be created
+        sphere_points (list (tuple (float, float, float))): The randomly created points
+          for the given sphere and num_points
     """
     assert all([len(point) == 3 for point in sphere_points])
     assert len(sphere_points) == num_points

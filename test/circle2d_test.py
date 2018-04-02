@@ -75,7 +75,7 @@ def _get_valid_circle_definitions():
     a 2D circle along with the desired number of random points to be created.
 
     Returns:
-      list (tuple (Circle2D, int) ): List with 2D circle parameters and desired point count
+        list (tuple (Circle2D, int) ): List with 2D circle parameters and desired point count
     """
     return [
         (Circle2D(3.0, 5.0, 10.0), 5),
@@ -99,7 +99,8 @@ def _get_invalid_circle_definitions():
     An invalid parameter is a parameter with either an unexpected data type or value.
 
     Returns:
-      list (tuple (Circle2D, Exception)): List with 2D circle parameters and the expected exception
+        list (tuple (any, any, any, Exception)): List with 2D circle parameters
+          and the expected exception
     """
     return [
         ("4.5", 5.0, 10.0, TypeError),
@@ -128,8 +129,8 @@ def _get_circles_with_invalid_point_count():
     An invalid number is either a value of wrong type or with an invalid value.
 
     Returns:
-      list (tuple (Circle2D, (int | string))): List with 2D circle parameters
-        and an invalid number of random points
+        list (tuple (Circle2D, any): List with 2D circle parameters
+          and an invalid number of random points
     """
     return [
         (Circle2D(2.0, 5.0, 5), "3", TypeError),
@@ -137,7 +138,10 @@ def _get_circles_with_invalid_point_count():
         (Circle2D(2.0, 5.0, 5), 4.5, TypeError),
         (Circle2D(2.0, 5.0, 5), -5, ValueError),
         (Circle2D(2.0, 5.0, 5), 0, ValueError),
-        (Circle2D(2.0, 5.0, 5), 100000, ValueError)
+        (Circle2D(2.0, 5.0, 5), 100000, ValueError),
+        (Circle2D(2.0, 5.0, 5), float('nan'), TypeError),
+        (Circle2D(2.0, 5.0, 5), float("inf"), TypeError),
+        (Circle2D(2.0, 5.0, 5), float("-inf"), TypeError)
     ]
 
 def _check_valid_circle_results(circle, num_points, circle_points):
@@ -147,10 +151,10 @@ def _check_valid_circle_results(circle, num_points, circle_points):
     lies on the defined 2D circle.
 
     Args:
-      circle (Circle2D): A valid 2D circle definition
-      num_points (int): A valid number of random points to be created
-      circle_points (list (tuple(float, float))): The randomly created points
-        for the given circle and num_points
+        circle (Circle2D): A valid 2D circle definition
+        num_points (int): A valid number of random points to be created
+        circle_points (list (tuple(float, float))): The randomly created points
+          for the given circle and num_points
     """
     assert all([len(point) == 2 for point in circle_points])
     assert len(circle_points) == num_points

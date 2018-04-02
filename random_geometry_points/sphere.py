@@ -10,6 +10,7 @@ Examples:
 import math
 import random
 from random_geometry_points.geometry import Geometry
+from random_geometry_points.validation import check_geometry_parameter, check_radius
 
 class Sphere(Geometry):
     """Class to generate random points lying on a sphere.
@@ -26,16 +27,24 @@ class Sphere(Geometry):
     """
 
     def __init__(self, center_x, center_y, center_z, radius):
-        self.center_x = Geometry._check_geometry_parameter(center_x)
-        self.center_y = Geometry._check_geometry_parameter(center_y)
-        self.center_z = Geometry._check_geometry_parameter(center_z)
-        self.radius = Geometry._check_radius(radius)
+        """Sphere constructor
+
+        Args:
+            center_x (float): The x coordinate of the sphere center point
+            center_y (float): The y coordinate of the sphere center point
+            center_z (float): The z coordinate of the sphere center point
+            radius (float): The radius of the sphere
+        """
+        self.center_x = check_geometry_parameter(center_x)
+        self.center_y = check_geometry_parameter(center_y)
+        self.center_z = check_geometry_parameter(center_z)
+        self.radius = check_radius(radius)
 
     def create_random_points(self, num_points):
         """Create a list of num_points random points that lie on the sphere.
 
         Args:
-            num_points (int): The number of random points to be created.
+            num_points (int): The number of random points to be created. Maximum value is 99999.
 
         Returns:
             list (tuple (float, float, float)): A list of randomly generated points.
@@ -47,7 +56,7 @@ class Sphere(Geometry):
             The second tuple-value is the y coordinate.
             The third tuple-value is the z coordinate.
         """
-        super().create_random_point_generator(num_points)
+        super().create_random_points(num_points)
         polar_coords = [_create_random_azimuth_zenith() for n in range(0, num_points)]
         return [self._create_sphere_point(az_ze[0], az_ze[1]) for az_ze in polar_coords]
 
@@ -65,21 +74,22 @@ class Sphere(Geometry):
             The second tuple-value is the y coordinate.
             The third tuple-value is the z coordinate.
         """
-        super().create_random_point_generator(num_points)
+        for _ in super().create_random_point_generator(num_points):
+            pass
         polar_coords = [_create_random_azimuth_zenith() for n in range(0, num_points)]
-        return [self._create_sphere_point(az_ze[0], az_ze[1]) for az_ze in polar_coords]
+        return (self._create_sphere_point(az_ze[0], az_ze[1]) for az_ze in polar_coords)
 
     def _create_sphere_point(self, azimuth, zenith):
         """Create a 3D cartesian point using the sphere parameters and the given angles.
 
         Args:
-          azimuth (float): The azimuth angle (radiant) for which
-            the cartesian coordinates shall be calculated
-          zenith (float): The zenith angle (radiant) for which
-            the cartesian coordinates shall be calculated
+            azimuth (float): The azimuth angle (radiant) for which
+              the cartesian coordinates shall be calculated
+            zenith (float): The zenith angle (radiant) for which
+              the cartesian coordinates shall be calculated
 
         Returns:
-          tuple (float, float, float): The cartesian coordinates corresponding to the input angle
+            tuple (float, float, float): The cartesian coordinates corresponding to the input angle
         """
         x_from_angle = lambda az, ze: self.radius * math.sin(ze) * math.cos(az) + self.center_x
         y_from_angle = lambda az, ze: self.radius * math.sin(ze) * math.sin(az) + self.center_y
@@ -91,7 +101,7 @@ def _create_random_azimuth_zenith():
     """Create random values for azimuth and zenith in radiant.
 
     Returns:
-      tuple (float, float): Random values (radiant) for azimuth and zenith
+        tuple (float, float): Random values (radiant) for azimuth and zenith
     """
     azimuth = random.uniform(0.0, 2.0 * math.pi)
     zenith = random.uniform(0.0, math.pi)
