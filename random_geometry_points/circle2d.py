@@ -69,8 +69,7 @@ class Circle2D(Geometry):
             The first tuple-value is the x coordinate.
             The second tuple-value is the y coordinate.
         """
-        for _ in super().create_random_point_generator(num_points):
-            pass
+        _ = [_ for _ in super().create_random_point_generator(num_points)]
         angles = [random.uniform(0.0, 2.0 * math.pi) for n in range(0, num_points)]
         return (self._create_circle_point(angle) for angle in angles)
 
@@ -78,7 +77,8 @@ class Circle2D(Geometry):
         """Create a 2D cartesian point using the circle parameters and the given angle.
 
         Args:
-            angle (float): The angle (radiant) for which the cartesian coordinates shall be calculated
+            angle (float): The angle (radiant) for which the cartesian coordinates
+              shall be calculated
 
         Returns:
             tuple (float, float): The cartesian coordinates corresponding to the input angle

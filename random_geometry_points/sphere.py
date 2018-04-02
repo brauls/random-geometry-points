@@ -74,8 +74,7 @@ class Sphere(Geometry):
             The second tuple-value is the y coordinate.
             The third tuple-value is the z coordinate.
         """
-        for _ in super().create_random_point_generator(num_points):
-            pass
+        _ = [_ for _ in super().create_random_point_generator(num_points)]
         polar_coords = [_create_random_azimuth_zenith() for n in range(0, num_points)]
         return (self._create_sphere_point(az_ze[0], az_ze[1]) for az_ze in polar_coords)
 

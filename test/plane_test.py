@@ -96,6 +96,8 @@ def _get_valid_plane_definitions():
         (Plane((-1, 0, 0), -7, (7, 6, -7.45), 15.0), 5),
         (Plane.from_normal_form((0.9, 0, 0), (3, 2.4, 9), 15.0), 5),
         (Plane.from_normal_form((1, 0, 0), (3, 2.4, 9), 15.0), 5),
+        (Plane.from_normal_form((0, 1, 0), (3, 2.4, 9), 15.0), 5),
+        (Plane.from_normal_form((0, 0, 1), (3, 2.4, 9), 15.0), 5),
         (Plane.from_normal_form((0.55, 0.55, 0.55), (0, 0, 0), 4), 5),
         (Plane.from_normal_form((0.55, 0.55, 0.55), (0, 0, 0), 0.01), 5),
         (Plane.from_normal_form((99254, 88777.7, 26755), (0, 0, 0), 0.01), 5)
@@ -124,6 +126,10 @@ def _get_invalid_plane_definitions_hessian_normal_form():
         ((4.5, 2, 4), 2.0, (1, "2", 3), 10.0, TypeError),
         ((4.5, 2, 4), 2.0, (1, 2, "3"), 10.0, TypeError),
         ((4.5, 2, 4), 2.0, (1, 2, 3), "10.0", TypeError),
+        (3, 2.0, (1, 2, 3), 10.0, TypeError),
+        ((4.5, 2, 4), 2.0, "test", 10.0, TypeError),
+        ((4.5, 2), 2.0, (1, 2, 3), 10.0, ValueError),
+        ((4.5, 2, 4), 2.0, (1, 2, 3, 4), 10.0, ValueError),
         ((float("nan"), 2, 4), 2.0, (1, 2, 3), 10.0, ValueError),
         ((4.5, float("nan"), 4), 2.0, (1, 2, 3), 10.0, ValueError),
         ((4.5, 2, float("nan")), 2.0, (1, 2, 3), 10.0, ValueError),
@@ -154,6 +160,7 @@ def _get_invalid_plane_definitions_hessian_normal_form():
         ((1.0, 0, 0), 2.0, (2, 0, 0), 0, ValueError),
         ((1.0, 0, 0), 2.0, (2, 0, 0), 0.0, ValueError),
         ((1.0, 0, 0), 2.0, (2, 0, 0), -1.0, ValueError),
+        ((1.0, 0, 0), 2.0, (3, 0, 0), 3.5, ValueError),
     ]
 
 def _get_invalid_plane_definitions_normal_form():
@@ -178,6 +185,10 @@ def _get_invalid_plane_definitions_normal_form():
         ((4.5, 2, 4), (1, "2", 3), 10.0, TypeError),
         ((4.5, 2, 4), (1, 2, "3"), 10.0, TypeError),
         ((4.5, 2, 4), (1, 2, 3), "10.0", TypeError),
+        (3.0, (1, 2, 3), 10.0, TypeError),
+        ((4.5, 2, 4), "test", 10.0, TypeError),
+        ((4.5, 2, 4, 6.7), (1, 2, 3), 10.0, ValueError),
+        ((4.5, 2, 4), (1, 2), 10.0, ValueError),
         ((float("nan"), 2, 4), (1, 2, 3), 10.0, ValueError),
         ((4.5, float("nan"), 4), (1, 2, 3), 10.0, ValueError),
         ((4.5, 2, float("nan")), (1, 2, 3), 10.0, ValueError),

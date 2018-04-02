@@ -64,8 +64,6 @@ class Plane(Geometry):
         Returns:
             Plane: The plane object
         """
-        print("normal form")
-        print(normal_vec)
         n_vec = check_direction_vector(normal_vec)
         n0_vec = normalize_vector(n_vec)
         ref_point = check_vector(position_vec)
@@ -106,8 +104,7 @@ class Plane(Geometry):
             The second tuple-value is the y coordinate.
             The third tuple-value is the z coordinate.
         """
-        for _ in super().create_random_point_generator(num_points):
-            pass
+        _ = [_ for _ in super().create_random_point_generator(num_points)]
         start_vec = calc_perpendicular_vector(self.normal_vec)
         return (self._create_plane_point(start_vec) for n in range(0, num_points))
 
