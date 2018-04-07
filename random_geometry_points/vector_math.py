@@ -59,6 +59,8 @@ def normalize_vector(vec):
         tuple (float, float, float): The normalized vector
     """
     magnitude = calc_magnitude(vec)
+    if math.isclose(magnitude, 0.0, abs_tol=0.000001):
+        raise ValueError("Inproper vector. Expected a magnitude greater than 0.")
     normalize = lambda v: v / magnitude
     return tuple([normalize(vec_elem) for vec_elem in vec])
 
