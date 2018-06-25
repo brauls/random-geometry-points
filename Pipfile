@@ -12,6 +12,7 @@ coveralls = "*"
 pytest-cov = "*"
 twine = "*"
 setuptools = "*"
+wheel = "*"
 
 [requires]
 python_version = "3.6"

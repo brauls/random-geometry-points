@@ -4,10 +4,12 @@
 [![PyPI pyversions](https://img.shields.io/badge/python-3.6-blue.svg)](https://badge.fury.io/py/random-geometry-points)
 
 # random-geometry-points
+
 This module provides classes to generate random points on geometry surfaces.
 These points can then be used as test data, e.g. to simulate measurements of a measurement device.
 
 ## Installation
+
 You can install this module using pip globally
 ```bash
 pip install random-geometry-points
@@ -64,7 +66,30 @@ print(random_circle_points)
 ```
 
 ## Documentation
+
 Please take a look at the [Wiki](https://github.com/brauls/random-geometry-points/wiki) for a more detailed description. There you get more detailed information on how you can use the geometry classes, the meaning of the geometry parameters and error handling.
 
+## Deployment
+
+### Update packages
+
+```pipenv update --dev setuptools wheel twine```
+
+### Update ```setup.py```
+
+Update the content of ```setup.py```, especially the version information.
+
+### Build source archive and built distribution
+
+```pipenv run python setup.py sdist bdist_wheel```
+
+### Deploy to PyPi or TestPyPi to test things first
+
+```pipenv run twine upload --skip-existing --repository-url https://test.pypi.org/legacy/ dist/*```
+
+```pipenv run twine upload --skip-existing dist/*```
+
 ## Useful links
+
 * [Configuring pipenv for Visual Studio Code](https://olav.it/2017/03/04/pipenv-visual-studio-code/)
+* [Packaging Python Projects](https://packaging.python.org/tutorials/packaging-projects/)
