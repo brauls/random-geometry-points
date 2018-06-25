@@ -40,7 +40,7 @@ def test_create_random_points_exc():
     Create a list of different invalid plane definitions.
     Check if for each plane definition the expected exception is raised.
     """
-    def check_hessian_normal_form(normal_vec, d_origin, ref_point, radius, expected_exception):
+    def check_constructor_creation(normal_vec, d_origin, ref_point, radius, expected_exception):
         """Check the plane parameters to raise the expected exception
         """
         with pytest.raises(expected_exception):
@@ -51,6 +51,12 @@ def test_create_random_points_exc():
         """
         with pytest.raises(expected_exception):
             Plane.from_normal_form(normal_vec, position_vec, radius)
+
+    def check_hessian_normal_form(normal_vec, d_origin, radius, expected_exception):
+        """Check the plane parameters to raise the expected exception
+        """
+        with pytest.raises(expected_exception):
+            Plane.from_hessian_normal_form(normal_vec, d_origin, radius)
 
     def check_point_count(plane, num_points, expected_exception):
         """Check the create_random_points method to raise an exception because of
@@ -67,12 +73,15 @@ def test_create_random_points_exc():
             plane.create_random_point_generator(num_points)
 
     invalid_normal_forms = _get_invalid_plane_definitions_normal_form()
+    invalid_constructor_args = _get_invalid_plane_definitions_constructor_args()
     invalid_hessian_normal_forms = _get_invalid_plane_definitions_hessian_normal_form()
     point_count_errors = _get_planes_with_invalid_point_count()
     for plane in invalid_normal_forms:
         check_normal_form(plane[0], plane[1], plane[2], plane[3])
+    for plane in invalid_constructor_args:
+        check_constructor_creation(plane[0], plane[1], plane[2], plane[3], plane[4])
     for plane in invalid_hessian_normal_forms:
-        check_hessian_normal_form(plane[0], plane[1], plane[2], plane[3], plane[4])
+        check_hessian_normal_form(plane[0], plane[1], plane[2], plane[3])
     for plane in point_count_errors:
         check_point_count(plane[0], plane[1], plane[2])
         check_point_count_gen(plane[0], plane[1], plane[2])
@@ -100,10 +109,17 @@ def _get_valid_plane_definitions():
         (Plane.from_normal_form((0, 0, 1), (3, 2.4, 9), 15.0), 5),
         (Plane.from_normal_form((0.55, 0.55, 0.55), (0, 0, 0), 4), 5),
         (Plane.from_normal_form((0.55, 0.55, 0.55), (0, 0, 0), 0.01), 5),
-        (Plane.from_normal_form((99254, 88777.7, 26755), (0, 0, 0), 0.01), 5)
+        (Plane.from_normal_form((99254, 88777.7, 26755), (0, 0, 0), 0.01), 5),
+        (Plane.from_hessian_normal_form((0.9, 0, 0), 3.5, 7), 5),
+        (Plane.from_hessian_normal_form((1, 0, 0), -3.5, 7), 5),
+        (Plane.from_hessian_normal_form((0, 1, 0), 0, 7), 5),
+        (Plane.from_hessian_normal_form((0, 0, 1), 1, 7), 5),
+        (Plane.from_hessian_normal_form((0.55, 0.55, 0.55), 3.5, 0.01), 5),
+        (Plane.from_hessian_normal_form((0.55, 0.55, 0.55), 3.5, 0.01), 5),
+        (Plane.from_hessian_normal_form((99254, 88777.7, 26755), 3.5, 0.01), 5)
     ]
 
-def _get_invalid_plane_definitions_hessian_normal_form():
+def _get_invalid_plane_definitions_constructor_args():
     """Create a list of invalid plane parameters.
 
     Create and return a list of tuples each containing invalid parameters of
@@ -161,6 +177,51 @@ def _get_invalid_plane_definitions_hessian_normal_form():
         ((1.0, 0, 0), 2.0, (2, 0, 0), 0.0, ValueError),
         ((1.0, 0, 0), 2.0, (2, 0, 0), -1.0, ValueError),
         ((1.0, 0, 0), 2.0, (3, 0, 0), 3.5, ValueError),
+    ]
+
+def _get_invalid_plane_definitions_hessian_normal_form():
+    """Create a list of invalid plane parameters.
+
+    Create and return a list of tuples each containing invalid parameters of
+    a plane along with the expected type of exception that should be thrown.
+
+    The order of parameters is: normal_vec, d_origin, radius
+
+    An invalid parameter is a parameter with either an unexpected data type or value.
+
+    Returns:
+        list (tuple (any, any, any, any, Exception)): List with plane parameters
+          and the expected exception
+    """
+    return [
+        (("4.5", 2, 4), 2.0, 10.0, TypeError),
+        ((4.5, "2", 4), 2.0, 10.0, TypeError),
+        ((4.5, 2, "4"), 2.0, 10.0, TypeError),
+        ((4.5, 2, 4), "2.0", 10.0, TypeError),
+        ((4.5, 2, 4), 2.0, "10.0", TypeError),
+        (3, 2.0, 10.0, TypeError),
+        ((4.5, 2), 2.0, 10.0, ValueError),
+        ((float("nan"), 2, 4), 2.0, 10.0, ValueError),
+        ((4.5, float("nan"), 4), 2.0, 10.0, ValueError),
+        ((4.5, 2, float("nan")), 2.0, 10.0, ValueError),
+        ((4.5, 2, 4), float("nan"), 10.0, ValueError),
+        ((4.5, 2, 4), 2.0, float("nan"), ValueError),
+        ((float("inf"), 2, 4), 2.0, 10.0, ValueError),
+        ((4.5, float("inf"), 4), 2.0, 10.0, ValueError),
+        ((4.5, 2, float("inf")), 2.0, 10.0, ValueError),
+        ((4.5, 2, 4), float("inf"), 10.0, ValueError),
+        ((4.5, 2, 4), 2.0, float("inf"), ValueError),
+        ((float("-inf"), 2, 4), 2.0, 10.0, ValueError),
+        ((4.5, float("-inf"), 4), 2.0, 10.0, ValueError),
+        ((4.5, 2, float("-inf")), 2.0, 10.0, ValueError),
+        ((4.5, 2, 4), float("-inf"), 10.0, ValueError),
+        ((4.5, 2, 4), 2.0, float("-inf"), ValueError),
+        ((0, 0, 0), 2.0, 10.0, ValueError),
+        ((0.0, 0.0, 0.0), 2.0, 10.0, ValueError),
+        ((0.89, 0, 0), 2.0, 10.0, ValueError),
+        ((1.0, 0, 0), 2.0, 0, ValueError),
+        ((1.0, 0, 0), 2.0, 0.0, ValueError),
+        ((1.0, 0, 0), 2.0, -1.0, ValueError),
     ]
 
 def _get_invalid_plane_definitions_normal_form():

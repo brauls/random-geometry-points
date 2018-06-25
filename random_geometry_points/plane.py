@@ -70,6 +70,24 @@ class Plane(Geometry):
         d_origin = calc_dot_product(n0_vec, ref_point)
         return cls(normal_vec, d_origin, ref_point, radius)
 
+    @classmethod
+    def from_hessian_normal_form(cls, normal_vec, d_origin, radius):
+        """Factory method to create a plane when having the plane
+        parameters in the plane's hessian normal form.
+
+        Args:
+            normal_vec (tuple (float, float, float)): The normal vector of the plane
+            d_origin (float): The smallest distance of the plane from the origin
+            radius (float): The plane point creation radius
+
+        Returns:
+            Plane: The plane object
+        """
+        n_vec = check_direction_vector(normal_vec)
+        n0_vec = normalize_vector(n_vec)
+        ref_point = scale_vector(n0_vec, d_origin)
+        return cls(normal_vec, d_origin, ref_point, radius)
+
     def create_random_points(self, num_points):
         """Create a list of num_points random points that lie on the plane.
 
