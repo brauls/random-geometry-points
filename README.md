@@ -75,9 +75,13 @@ Please take a look at the [Wiki](https://github.com/brauls/random-geometry-point
 
 ```pipenv update --dev setuptools wheel twine```
 
-### Update ```setup.py```
+### Update `setup.py`
 
-Update the content of ```setup.py```, especially the version information.
+Update the content of `setup.py`, especially the version information.
+
+### Commit and tag
+
+Commit and push the changes along with a new version tag. Travis will run the test cases automatically when pushing to the master branch.
 
 ### Build source archive and built distribution
 
