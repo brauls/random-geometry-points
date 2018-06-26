@@ -34,7 +34,7 @@ from random_geometry_points.circle2d import Circle2D
 Now you can create an arbitrary number of random points lying on a geometry surface.
 
 ```python
-# create a plane object with n = (1, 0, 0), x0 = (0, 0, 0), d = 0 and radius = 0
+# create a plane object with n = (1, 0, 0), x0 = (0, 0, 0), d = 0 and radius = 10
 normal_vec = (1.0, 0.0, 0.0)
 ref_point = (0.0, 0.0, 0.0)
 plane = Plane(normal_vec, 0.0, ref_point, 10.0)
