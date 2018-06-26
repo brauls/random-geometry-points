@@ -6,7 +6,7 @@ LONG_DESCRIPTION = open(README_PATH, encoding='utf-8').read()
 
 setup(
     name="random_geometry_points",
-    version="1.1.1",
+    version="1.1.2",
     description="Library to generate random points (2D or 3D) on geometry surfaces",
     long_description=LONG_DESCRIPTION,
     long_description_content_type="text/markdown",
